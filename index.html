@@ -418,112 +418,6 @@
             text-align: right;
         }
 
-        .admin-login-btn {
-            color: var(--mc-gold) !important;
-            border: 1px solid var(--mc-gold) !important;
-        }
-        .admin-login-btn:hover::before {
-            background: rgba(255,215,0,0.2) !important;
-        }
-        .admin-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-        .admin-btn {
-            padding: 0.3rem 0.6rem;
-            border: 1px solid var(--neon-blue);
-            border-radius: 4px;
-            background: rgba(0,255,255,0.2);
-            color: var(--neon-blue);
-            cursor: pointer;
-            font-size: 0.7rem;
-            font-family: 'Orbitron', monospace;
-            transition: all 0.3s ease;
-        }
-        .admin-btn:hover {
-            background: rgba(0,255,255,0.4);
-            transform: scale(1.05);
-        }
-        .delete-btn {
-            border-color: var(--mc-red);
-            background: rgba(220,20,60,0.2);
-            color: var(--mc-red);
-        }
-        .delete-btn:hover {
-            background: rgba(220,20,60,0.4);
-        }
-        .admin-login-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-        .admin-login-form {
-            background: rgba(0,0,0,0.95);
-            border: 2px solid var(--mc-gold);
-            border-radius: 15px;
-            padding: 2rem;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 0 30px rgba(255,215,0,0.5);
-        }
-        .admin-login-title {
-            color: var(--mc-gold);
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-        .login-input {
-            background: rgba(255,215,0,0.1);
-            border: 1px solid var(--mc-gold);
-            border-radius: 8px;
-            padding: 0.8rem;
-            color: #fff;
-            font-family: 'Orbitron', monospace;
-            font-size: 0.9rem;
-            width: 100%;
-            margin-bottom: 1rem;
-        }
-        .login-input:focus {
-            outline: none;
-            border-color: var(--neon-green);
-            box-shadow: 0 0 10px rgba(57,255,20,0.3);
-        }
-        .login-btn-group {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-        .admin-logout-btn {
-            color: var(--mc-red) !important;
-            border: 1px solid var(--mc-red) !important;
-        }
-        .admin-logout-btn:hover::before {
-            background: rgba(220,20,60,0.2) !important;
-        }
-        .admin-status {
-            color: var(--mc-gold);
-            font-size: 0.8rem;
-            margin-left: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .admin-indicator {
-            width: 8px;
-            height: 8px;
-            background: var(--mc-gold);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
         .announcement-content {
             background: rgba(0,191,255,0.1);
             border: 1px solid var(--mc-diamond);
@@ -637,21 +531,6 @@
             .logo-fixed { padding: 0.3rem 0.5rem; }
             .announcement-btn { padding: 0.6rem 1rem; font-size: 0.8rem; }
         }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        @keyframes text-shine {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.2); }
-        }
-        @keyframes panel-flash {
-            0% { box-shadow: 0 0 30px rgba(0,255,255,0.5); }
-            50% { box-shadow: 0 0 50px rgba(255,0,255,0.8); }
-            100% { box-shadow: 0 0 30px rgba(0,255,255,0.5); }
-        }
     </style>
 </head>
 <body>
@@ -717,27 +596,9 @@
                 <li><a href="#info" onclick="smoothScroll('info', event)">服务器信息</a></li>
                 <li><a href="#whitelist" onclick="smoothScroll('whitelist', event)">白名单</a></li>
                 <li><a href="#feedback" onclick="smoothScroll('feedback', event)">意见反馈</a></li>
-                <li><a href="#" id="admin-btn" class="admin-login-btn" onclick="toggleAdminLogin()">管理员登录</a></li>
             </ul>
-            <div id="admin-status" class="admin-status" style="display: none;">
-                <div class="admin-indicator"></div>
-                <span>管理员模式</span>
-            </div>
         </nav>
     </header>
-
-    <div id="admin-login-modal" class="admin-login-modal">
-        <div class="admin-login-form">
-            <div class="admin-login-title">🔐 管理员验证</div>
-            <div class="form-group">
-                <input type="password" id="admin-password" class="login-input" placeholder="请输入管理员密码" autofocus>
-            </div>
-            <div class="login-btn-group">
-                <button class="admin-btn" onclick="loginAdmin()">登录</button>
-                <button class="admin-btn delete-btn" onclick="closeAdminLogin()">取消</button>
-            </div>
-        </div>
-    </div>
 
     <main>
         <section class="hero">
@@ -777,7 +638,7 @@
                         🎮 mcwz.xyz:1086
                         <button class="copy-btn" onclick="copyServerAddress()">复制</button>
                     </div>
-                    <div style="color: var(--neon-purple); font-size: 0.9rem;">支持1.21.x任意客户端</div>
+                    <div style="color: var(--neon-purple); font-size: 0.9rem; margin-top: 0.5rem;">支持1.21.x任意客户端</div>
                 </div>
                 <div class="player-stats">
                     <div class="stat-card">
@@ -905,10 +766,6 @@
         const SERVER_PORT = '1086';
         const API_URL = `https://api.mcsrvstat.us/3/${SERVER_IP}:${SERVER_PORT}`;
         const MINEBBS_URL = 'https://www.minebbs.com/threads/30010/?sharetype=link';
-        
-        const ADMIN_PASSWORD = '201314227';
-        
-        let isAdmin = false;
 
         let announcementData = null;
         let feedbackArray = [];
@@ -1083,7 +940,6 @@
         function submitFeedback(event) {
             event.preventDefault();
             const fd = {
-                id: Date.now(),
                 name: document.getElementById('name').value.trim(),
                 contact: document.getElementById('contact').value.trim(),
                 type: document.getElementById('type').value,
@@ -1105,91 +961,15 @@
                 return;
             }
             listBox.innerHTML = feedbackArray.map(f => `
-                <div class="feedback-item" data-id="${f.id}">
+                <div class="feedback-item">
                     <div class="feedback-header">
                         <span class="feedback-meta">${f.name}${f.contact ? ' • ' + f.contact : ''}</span>
-                        <div class="admin-actions">
-                            <span class="feedback-type">${f.type}</span>
-                            ${isAdmin ? `<button class="admin-btn delete-btn" onclick="deleteFeedback(${f.id})">删除</button>` : ''}
-                        </div>
+                        <span class="feedback-type">${f.type}</span>
                     </div>
                     <div class="feedback-content">${f.message}</div>
                     <div class="feedback-time">${f.time}</div>
                 </div>
             `).join('');
-        }
-
-        function toggleAdminLogin() {
-            if (isAdmin) {
-                logoutAdmin();
-            } else {
-                document.getElementById('admin-login-modal').style.display = 'flex';
-                document.getElementById('admin-password').focus();
-            }
-        }
-
-        function closeAdminLogin() {
-            document.getElementById('admin-login-modal').style.display = 'none';
-            document.getElementById('admin-password').value = '';
-        }
-
-        function loginAdmin() {
-            const password = document.getElementById('admin-password').value;
-            if (password === ADMIN_PASSWORD) {
-                isAdmin = true;
-                localStorage.setItem('adminSession', 'true');
-                updateAdminUI();
-                closeAdminLogin();
-                renderFeedbackWall();
-                alert('管理员登录成功！');
-            } else {
-                alert('密码错误！');
-                document.getElementById('admin-password').value = '';
-            }
-        }
-
-        function logoutAdmin() {
-            isAdmin = false;
-            localStorage.removeItem('adminSession');
-            updateAdminUI();
-            renderFeedbackWall();
-        }
-
-        function updateAdminUI() {
-            const adminBtn = document.getElementById('admin-btn');
-            const adminStatus = document.getElementById('admin-status');
-            
-            if (isAdmin) {
-                adminBtn.textContent = '退出登录';
-                adminBtn.className = 'admin-logout-btn';
-                adminBtn.onclick = logoutAdmin;
-                adminStatus.style.display = 'flex';
-            } else {
-                adminBtn.textContent = '管理员登录';
-                adminBtn.className = 'admin-login-btn';
-                adminBtn.onclick = toggleAdminLogin;
-                adminStatus.style.display = 'none';
-            }
-        }
-
-        function deleteFeedback(id) {
-            if (!isAdmin) {
-                alert('请先登录管理员账户！');
-                return;
-            }
-            
-            if (confirm('确定要删除这条反馈吗？')) {
-                feedbackArray = feedbackArray.filter(f => f.id !== id);
-                renderFeedbackWall();
-            }
-        }
-
-        function checkAdminSession() {
-            const session = localStorage.getItem('adminSession');
-            if (session === 'true') {
-                isAdmin = true;
-                updateAdminUI();
-            }
         }
 
         document.addEventListener('mousemove', function(e) {
@@ -1207,7 +987,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             updateActiveNav();
-            checkAdminSession();
             renderFeedbackWall();
             fetchAnnouncement();
             const observer = new IntersectionObserver((entries) => {
@@ -1226,12 +1005,6 @@
                 fetchAnnouncement();
             }, 30000);
         }
-
-        document.getElementById('admin-password').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                loginAdmin();
-            }
-        });
     </script>
 </body>
 </html>
