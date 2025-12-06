@@ -16,6 +16,7 @@
             --neon-blue: #00FFFF;
             --neon-purple: #FF00FF;
             --neon-green: #39FF14;
+            --neon-pink: #FF1493;
             --dark-bg: #0a0a0a;
             --grid-bg: #1a1a1a;
         }
@@ -53,9 +54,40 @@
             animation: grid-move 10s linear infinite;
         }
 
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at top, rgba(255,0,255,0.05) 0%, transparent 70%),
+                radial-gradient(ellipse at bottom, rgba(0,255,255,0.05) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
         @keyframes grid-move {
             0% { transform: translate(0, 0); }
             100% { transform: translate(50px, 50px); }
+        }
+
+        .hologram-scan {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), var(--neon-purple), transparent);
+            opacity: 0.3;
+            animation: scan 8s linear infinite;
+            z-index: 100;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
         }
 
         .minecraft-blocks {
@@ -87,6 +119,18 @@
             background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
         }
 
+        .island-block {
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(135,206,235,0.3) 20%, transparent 20%),
+                linear-gradient(135deg, rgba(124,252,0,0.8) 25%, transparent 25%),
+                linear-gradient(225deg, rgba(124,252,0,0.6) 25%, transparent 25%),
+                linear-gradient(45deg, rgba(124,252,0,0.4) 25%, transparent 25%),
+                linear-gradient(315deg, rgba(124,252,0,0.2) 25%, transparent 25%),
+                #8B4513;
+            background-size: 30px 30px;
+            border-radius: 10px;
+        }
+
         .diamond-block {
             background: 
                 linear-gradient(45deg, var(--mc-diamond) 25%, transparent 25%),
@@ -100,6 +144,24 @@
         .gold-block {
             background: var(--mc-gold);
             box-shadow: inset 0 0 15px rgba(255,255,255,0.5);
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particle-float 10s linear infinite;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        @keyframes particle-float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
         }
 
         @keyframes float {
@@ -176,6 +238,7 @@
         .nav-links a:hover::before,
         .nav-links a.active::before {
             opacity: 1;
+            box-shadow: 0 0 15px var(--neon-blue);
         }
         .nav-links a.active {
             color: var(--neon-purple);
@@ -269,6 +332,96 @@
         .online { background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
         .offline { background: var(--mc-red); box-shadow: 0 0 10px var(--mc-red); }
 
+        .server-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .server-card {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--neon-blue);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .server-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .server-card:hover::before {
+            animation: shimmer 0.5s ease;
+            opacity: 1;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .server-card.active {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(57,255,20,0.5);
+        }
+
+        .server-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9rem;
+            color: var(--mc-gold);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .server-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .address-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,255,255,0.1);
+            border: 1px solid var(--neon-blue);
+            border-radius: 8px;
+            padding: 0.8rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: rgba(0,255,255,0.2);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(0,255,255,0.4);
+            transform: scale(1.05);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
         .player-stats, .feature-grid, .whitelist-steps {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -324,6 +477,27 @@
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
+        }
+
+        .server-selector {
+            margin-bottom: 1rem;
+        }
+
+        .server-selector select {
+            width: 100%;
+            padding: 0.5rem;
+            background: rgba(0,255,255,0.1);
+            border: 1px solid var(--neon-blue);
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+        }
+
+        .server-selector select:focus {
+            outline: none;
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 10px rgba(255,0,255,0.3);
         }
 
         .feedback-form {
@@ -418,6 +592,112 @@
             text-align: right;
         }
 
+        .admin-login-btn {
+            color: var(--mc-gold) !important;
+            border: 1px solid var(--mc-gold) !important;
+        }
+        .admin-login-btn:hover::before {
+            background: rgba(255,215,0,0.2) !important;
+        }
+        .admin-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .admin-btn {
+            padding: 0.3rem 0.6rem;
+            border: 1px solid var(--neon-blue);
+            border-radius: 4px;
+            background: rgba(0,255,255,0.2);
+            color: var(--neon-blue);
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-family: 'Orbitron', monospace;
+            transition: all 0.3s ease;
+        }
+        .admin-btn:hover {
+            background: rgba(0,255,255,0.4);
+            transform: scale(1.05);
+        }
+        .delete-btn {
+            border-color: var(--mc-red);
+            background: rgba(220,20,60,0.2);
+            color: var(--mc-red);
+        }
+        .delete-btn:hover {
+            background: rgba(220,20,60,0.4);
+        }
+        .admin-login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .admin-login-form {
+            background: rgba(0,0,0,0.95);
+            border: 2px solid var(--mc-gold);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 0 30px rgba(255,215,0,0.5);
+        }
+        .admin-login-title {
+            color: var(--mc-gold);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .login-input {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid var(--mc-gold);
+            border-radius: 8px;
+            padding: 0.8rem;
+            color: #fff;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .login-input:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 10px rgba(57,255,20,0.3);
+        }
+        .login-btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .admin-logout-btn {
+            color: var(--mc-red) !important;
+            border: 1px solid var(--mc-red) !important;
+        }
+        .admin-logout-btn:hover::before {
+            background: rgba(220,20,60,0.2) !important;
+        }
+        .admin-status {
+            color: var(--mc-gold);
+            font-size: 0.8rem;
+            margin-left: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .admin-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--mc-gold);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
         .announcement-content {
             background: rgba(0,191,255,0.1);
             border: 1px solid var(--mc-diamond);
@@ -493,6 +773,11 @@
             margin-bottom: 0.5rem;
             color: var(--neon-green);
         }
+        .site-credit .gift-text {
+            color: var(--mc-gold);
+            font-size: 1.2rem;
+            margin-left: 0.5rem;
+        }
         .site-credit .redstone-text {
             color: #ff4444;
             font-size: 0.8rem;
@@ -531,16 +816,34 @@
             .logo-fixed { padding: 0.3rem 0.5rem; }
             .announcement-btn { padding: 0.6rem 1rem; font-size: 0.8rem; }
         }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        @keyframes text-shine {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+        @keyframes panel-flash {
+            0% { box-shadow: 0 0 30px rgba(0,255,255,0.5); }
+            50% { box-shadow: 0 0 50px rgba(255,0,255,0.8); }
+            100% { box-shadow: 0 0 30px rgba(0,255,255,0.5); }
+        }
     </style>
 </head>
 <body>
-    <div class="minecraft-blocks">
+    <div class="hologram-scan"></div>
+    <div class="minecraft-blocks" id="blocks-container">
         <div class="block grass-block" style="top: 10%; left: 5%; animation-delay: 0s;"></div>
         <div class="block diamond-block" style="top: 20%; right: 10%; animation-delay: 1s;"></div>
         <div class="block gold-block" style="bottom: 30%; left: 15%; animation-delay: 2s;"></div>
         <div class="block grass-block" style="bottom: 10%; right: 5%; animation-delay: 3s;"></div>
         <div class="block diamond-block" style="top: 50%; left: 3%; animation-delay: 4s;"></div>
         <div class="block gold-block" style="top: 70%; right: 8%; animation-delay: 5s;"></div>
+        <div class="block island-block" style="top: 25%; left: 20%; animation-delay: 2.5s;"></div>
+        <div class="block island-block" style="bottom: 25%; right: 15%; animation-delay: 3.5s;"></div>
     </div>
 
     <div class="logo-fixed">
@@ -596,9 +899,27 @@
                 <li><a href="#info" onclick="smoothScroll('info', event)">服务器信息</a></li>
                 <li><a href="#whitelist" onclick="smoothScroll('whitelist', event)">白名单</a></li>
                 <li><a href="#feedback" onclick="smoothScroll('feedback', event)">意见反馈</a></li>
+                <li><a href="#" id="admin-btn" class="admin-login-btn" onclick="toggleAdminLogin()">管理员登录</a></li>
             </ul>
+            <div id="admin-status" class="admin-status" style="display: none;">
+                <div class="admin-indicator"></div>
+                <span>管理员模式</span>
+            </div>
         </nav>
     </header>
+
+    <div id="admin-login-modal" class="admin-login-modal">
+        <div class="admin-login-form">
+            <div class="admin-login-title">🔐 管理员验证</div>
+            <div class="form-group">
+                <input type="password" id="admin-password" class="login-input" placeholder="请输入管理员密码" autofocus>
+            </div>
+            <div class="login-btn-group">
+                <button class="admin-btn" onclick="loginAdmin()">登录</button>
+                <button class="admin-btn delete-btn" onclick="closeAdminLogin()">取消</button>
+            </div>
+        </div>
+    </div>
 
     <main>
         <section class="hero">
@@ -628,34 +949,12 @@
             <section id="status" class="server-status">
                 <div class="status-header">
                     <div class="server-name">🌲 服务器状态</div>
-                    <div class="status-indicator">
-                        <div id="status-dot" class="status-dot online"></div>
-                        <span id="status-text">在线</span>
-                    </div>
+                    <div style="color: var(--neon-purple); font-size: 0.9rem;">三服在线</div>
                 </div>
-                <div class="server-address">
-                    <div class="address-line">
-                        🎮 mcwz.xyz:1086
-                        <button class="copy-btn" onclick="copyServerAddress()">复制</button>
-                    </div>
-                    <div style="color: var(--neon-purple); font-size: 0.9rem; margin-top: 0.5rem;">支持1.21.x任意客户端</div>
-                </div>
-                <div class="player-stats">
-                    <div class="stat-card">
-                        <span id="online-players" class="stat-number">--</span>
-                        <div style="color: var(--neon-blue); font-size: 0.9rem;">在线玩家</div>
-                    </div>
-                    <div class="stat-card">
-                        <span id="max-players" class="stat-number">--</span>
-                        <div style="color: var(--neon-blue); font-size: 0.9rem;">最大容量</div>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">1.21.10</span>
-                        <div style="color: var(--neon-blue); font-size: 0.9rem;">游戏版本</div>
-                    </div>
-                    <div class="stat-card">
-                        <span id="server-motd" class="stat-number">--</span>
-                        <div style="color: var(--neon-blue); font-size: 0.9rem;">服务器描述</div>
+                <div class="server-grid" id="servers-grid">
+                    <div style="text-align: center; padding: 2rem; color: var(--neon-blue); grid-column: 1 / -1;">
+                        <div class="loading"></div>
+                        <div style="margin-top: 1rem;">加载服务器状态中...</div>
                     </div>
                 </div>
             </section>
@@ -665,8 +964,13 @@
                     <div class="players-title">👥 在线玩家</div>
                     <div class="player-count">共 <span id="player-count">0</span> 人</div>
                 </div>
+                <div class="server-selector">
+                    <select id="server-select" onchange="switchServer()">
+                        <option value="">选择服务器查看玩家</option>
+                    </select>
+                </div>
                 <div id="players-list" class="players-list">
-                    <div style="text-align: center; padding: 2rem; color: var(--neon-blue);">暂无在线玩家</div>
+                    <div style="text-align: center; padding: 2rem; color: var(--neon-blue);">选择服务器查看在线玩家</div>
                 </div>
             </section>
 
@@ -756,16 +1060,25 @@
     </main>
 
     <footer class="site-credit">
-        <div class="credit-text">🎮 网站制作</div>
+        <div class="credit-text">🎮 这个是ID666的玩家送给房主的礼物 <span class="gift-text">🎁</span></div>
         <div style="margin: 0.3rem 0;">ID: 666</div>
         <div class="redstone-text">⚡ 欢迎红石大佬！</div>
     </footer>
 
     <script>
-        const SERVER_IP = 'mcwz.xyz';
-        const SERVER_PORT = '1086';
-        const API_URL = `https://api.mcsrvstat.us/3/${SERVER_IP}:${SERVER_PORT}`;
         const MINEBBS_URL = 'https://www.minebbs.com/threads/30010/?sharetype=link';
+        
+        const ADMIN_PASSWORD = '201314227';
+        
+        const SERVERS = [
+            { name: '永恒生存服务器', ip: 'xxsc.asia', port: '35283' },
+            { name: '永恒空岛服务器', ip: 'xxkd.asia', port: '35303' },
+            { name: '纪元空岛', ip: '50kd.asia', port: '35313' }
+        ];
+        
+        let isAdmin = false;
+        let currentServerIndex = -1;
+        let serverPlayersData = {};
 
         let announcementData = null;
         let feedbackArray = [];
@@ -851,22 +1164,114 @@
             `;
         }
 
-        async function getServerStatus() {
+        async function getServerStatus(server) {
             try {
-                const response = await fetch(API_URL);
+                const apiUrl = `https://api.mcsrvstat.us/3/${server.ip}:${server.port}`;
+                const response = await fetch(apiUrl);
                 return await response.json();
             } catch (error) {
-                console.error('获取服务器状态失败:', error);
+                console.error(`获取${server.name}状态失败:`, error);
                 return null;
             }
         }
 
-        function updatePlayerList(players) {
+        async function refreshAllServerStatus() {
+            const grid = document.getElementById('servers-grid');
+            grid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--neon-blue); grid-column: 1 / -1;"><div class="loading"></div><div style="margin-top: 1rem;">加载服务器状态中...</div></div>';
+            
+            const serverPromises = SERVERS.map(server => getServerStatus(server));
+            const results = await Promise.all(serverPromises);
+            
+            renderServers(results);
+        }
+
+        function renderServers(serverData) {
+            const grid = document.getElementById('servers-grid');
+            grid.innerHTML = '';
+            
+            serverData.forEach((data, index) => {
+                const server = SERVERS[index];
+                const isOnline = data && data.online;
+                const statusDot = isOnline ? 'online' : 'offline';
+                const statusText = isOnline ? '在线' : '离线';
+                const onlinePlayers = data?.players?.online || 0;
+                const maxPlayers = data?.players?.max || 0;
+                const motd = data?.motd?.clean?.[0] || '纯净生存';
+                
+                serverPlayersData[index] = data?.players?.list || [];
+                
+                const serverCard = document.createElement('div');
+                serverCard.className = 'server-card';
+                serverCard.dataset.index = index;
+                serverCard.onclick = () => selectServer(index);
+                serverCard.innerHTML = `
+                    <div class="server-title">${server.name}</div>
+                    <div class="server-info">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <div class="status-dot ${statusDot}"></div>
+                                <span>${statusText}</span>
+                            </div>
+                            <span style="color: var(--neon-blue); font-size: 0.8rem;">${onlinePlayers}/${maxPlayers} 玩家</span>
+                        </div>
+                        <div class="address-line">
+                            <span>${server.ip}:${server.port}</span>
+                            <button class="copy-btn" onclick="copyAddress('${server.ip}:${server.port}')">复制</button>
+                        </div>
+                        <div style="color: var(--neon-purple); font-size: 0.8rem; margin-top: 0.5rem;">版本: 1.21.x | ${motd}</div>
+                    </div>
+                `;
+                grid.appendChild(serverCard);
+            });
+            
+            initServerSelect();
+        }
+
+        function initServerSelect() {
+            const serverSelect = document.getElementById('server-select');
+            serverSelect.innerHTML = '<option value="">选择服务器查看玩家</option>';
+            SERVERS.forEach((server, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = server.name;
+                serverSelect.appendChild(option);
+            });
+        }
+
+        function selectServer(index) {
+            currentServerIndex = index;
+            document.querySelectorAll('.server-card').forEach((card, i) => {
+                if (i === index) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+            document.getElementById('server-select').value = index;
+            updatePlayerList(serverPlayersData[index] || [], SERVERS[index].name);
+        }
+
+        function switchServer() {
+            const select = document.getElementById('server-select');
+            const index = parseInt(select.value);
+            if (index >= 0) {
+                selectServer(index);
+            } else {
+                currentServerIndex = -1;
+                document.querySelectorAll('.server-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+                document.getElementById('players-list').innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--neon-blue);">选择服务器查看在线玩家</div>';
+                document.getElementById('player-count').textContent = '0';
+            }
+        }
+
+        function updatePlayerList(players, serverName = '') {
             const playersList = document.getElementById('players-list');
             const playerCount = document.getElementById('player-count');
             playerCount.textContent = players.length;
             if (players.length === 0) {
-                playersList.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--neon-blue);">暂无在线玩家</div>';
+                playersList.innerHTML = `<div style="text-align: center; padding: 2rem; color: var(--neon-blue);">${serverName || '该服务器'}暂无在线玩家</div>`;
                 return;
             }
             playersList.innerHTML = players.map(player => `
@@ -888,36 +1293,7 @@
             `).join('');
         }
 
-        function updateUI(data) {
-            if (!data) {
-                document.getElementById('status-dot').className = 'status-dot offline';
-                document.getElementById('status-text').textContent = '离线';
-                return;
-            }
-            const statusDot = document.getElementById('status-dot');
-            const statusText = document.getElementById('status-text');
-            if (data.online) {
-                statusDot.className = 'status-dot online';
-                statusText.textContent = '在线';
-            } else {
-                statusDot.className = 'status-dot offline';
-                statusText.textContent = '离线';
-            }
-            document.getElementById('online-players').textContent = data.players?.online || 0;
-            document.getElementById('max-players').textContent = data.players?.max || 0;
-            document.getElementById('server-motd').textContent = data.motd?.clean?.[0] || '纯净空岛生存';
-            updatePlayerList(data.players?.list || []);
-        }
-
-        async function refreshServerStatus() {
-            const playersList = document.getElementById('players-list');
-            playersList.innerHTML = '<div style="text-align: center; padding: 2rem;"><div class="loading"></div><div style="color: var(--neon-blue); margin-top: 1rem;">加载中...</div></div>';
-            const data = await getServerStatus();
-            updateUI(data);
-        }
-
-        function copyServerAddress() {
-            const address = 'mcwz.xyz:1086';
+        function copyAddress(address) {
             navigator.clipboard.writeText(address).then(() => {
                 const btn = event.target;
                 const originalText = btn.textContent;
@@ -933,13 +1309,14 @@
                 }, 2000);
             }).catch(err => {
                 console.error('复制失败: ', err);
-                alert('复制失败，请手动复制: mcwz.xyz:1086');
+                alert('复制失败，请手动复制: ' + address);
             });
         }
 
         function submitFeedback(event) {
             event.preventDefault();
             const fd = {
+                id: Date.now(),
                 name: document.getElementById('name').value.trim(),
                 contact: document.getElementById('contact').value.trim(),
                 type: document.getElementById('type').value,
@@ -961,15 +1338,112 @@
                 return;
             }
             listBox.innerHTML = feedbackArray.map(f => `
-                <div class="feedback-item">
+                <div class="feedback-item" data-id="${f.id}">
                     <div class="feedback-header">
                         <span class="feedback-meta">${f.name}${f.contact ? ' • ' + f.contact : ''}</span>
-                        <span class="feedback-type">${f.type}</span>
+                        <div class="admin-actions">
+                            <span class="feedback-type">${f.type}</span>
+                            ${isAdmin ? `<button class="admin-btn delete-btn" onclick="deleteFeedback(${f.id})">删除</button>` : ''}
+                        </div>
                     </div>
                     <div class="feedback-content">${f.message}</div>
                     <div class="feedback-time">${f.time}</div>
                 </div>
             `).join('');
+        }
+
+        function toggleAdminLogin() {
+            if (isAdmin) {
+                logoutAdmin();
+            } else {
+                document.getElementById('admin-login-modal').style.display = 'flex';
+                document.getElementById('admin-password').focus();
+            }
+        }
+
+        function closeAdminLogin() {
+            document.getElementById('admin-login-modal').style.display = 'none';
+            document.getElementById('admin-password').value = '';
+        }
+
+        function loginAdmin() {
+            const password = document.getElementById('admin-password').value;
+            if (password === ADMIN_PASSWORD) {
+                isAdmin = true;
+                localStorage.setItem('adminSession', 'true');
+                updateAdminUI();
+                closeAdminLogin();
+                renderFeedbackWall();
+                alert('管理员登录成功！');
+            } else {
+                alert('密码错误！');
+                document.getElementById('admin-password').value = '';
+            }
+        }
+
+        function logoutAdmin() {
+            isAdmin = false;
+            localStorage.removeItem('adminSession');
+            updateAdminUI();
+            renderFeedbackWall();
+        }
+
+        function updateAdminUI() {
+            const adminBtn = document.getElementById('admin-btn');
+            const adminStatus = document.getElementById('admin-status');
+            
+            if (isAdmin) {
+                adminBtn.textContent = '退出登录';
+                adminBtn.className = 'admin-logout-btn';
+                adminBtn.onclick = logoutAdmin;
+                adminStatus.style.display = 'flex';
+            } else {
+                adminBtn.textContent = '管理员登录';
+                adminBtn.className = 'admin-login-btn';
+                adminBtn.onclick = toggleAdminLogin;
+                adminStatus.style.display = 'none';
+            }
+        }
+
+        function deleteFeedback(id) {
+            if (!isAdmin) {
+                alert('请先登录管理员账户！');
+                return;
+            }
+            
+            if (confirm('确定要删除这条反馈吗？')) {
+                feedbackArray = feedbackArray.filter(f => f.id !== id);
+                renderFeedbackWall();
+            }
+        }
+
+        function checkAdminSession() {
+            const session = localStorage.getItem('adminSession');
+            if (session === 'true') {
+                isAdmin = true;
+                updateAdminUI();
+            }
+        }
+
+        function createParticles() {
+            const particleContainer = document.createElement('div');
+            particleContainer.style.position = 'fixed';
+            particleContainer.style.top = '0';
+            particleContainer.style.left = '0';
+            particleContainer.style.width = '100%';
+            particleContainer.style.height = '100%';
+            particleContainer.style.pointerEvents = 'none';
+            particleContainer.style.zIndex = '-1';
+            document.body.appendChild(particleContainer);
+
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particleContainer.appendChild(particle);
+            }
         }
 
         document.addEventListener('mousemove', function(e) {
@@ -987,8 +1461,10 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             updateActiveNav();
+            checkAdminSession();
             renderFeedbackWall();
             fetchAnnouncement();
+            createParticles();
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -999,12 +1475,18 @@
         });
 
         function startAutoRefresh() {
-            refreshServerStatus();
+            refreshAllServerStatus();
             setInterval(() => {
-                refreshServerStatus();
+                refreshAllServerStatus();
                 fetchAnnouncement();
             }, 30000);
         }
+
+        document.getElementById('admin-password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loginAdmin();
+            }
+        });
     </script>
 </body>
 </html>
