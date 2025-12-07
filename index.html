@@ -176,15 +176,16 @@
             top: 20px;
             left: 20px;
             z-index: 1001;
-            background: rgba(0,0,0,0.8);
-            padding: 0.5rem;
-            border-radius: 10px;
-            border: 1px solid var(--neon-blue);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 5px 20px rgba(0,255,255,0.3);
+            /* 移除边框和背景 */
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            backdrop-filter: none;
+            box-shadow: none;
             transition: all 0.3s ease;
         }
-        .logo-fixed:hover { transform: scale(1.02); box-shadow: 0 8px 30px rgba(0,255,255,0.5); }
+        .logo-fixed:hover { transform: scale(1.02); filter: drop-shadow(0 0 15px var(--neon-green)); }
 
         .logo-svg {
             width: 120px;
@@ -293,7 +294,15 @@
             margin-top: 3rem;
         }
 
-        .server-status, .players-panel, .info-panel, .whitelist-panel, .feedback-panel, .announcement-panel, .donation-panel {
+        /* 添加双公告栏布局 */
+        .announcements-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .server-status, .players-panel, .info-panel, .whitelist-panel, .feedback-panel, .announcement-panel, .donation-panel, .custom-announcement-panel {
             background: rgba(0,0,0,0.8);
             border: 2px solid var(--neon-blue);
             border-radius: 15px;
@@ -310,7 +319,8 @@
         .whitelist-panel.visible,
         .feedback-panel.visible,
         .announcement-panel.visible,
-        .donation-panel.visible {
+        .donation-panel.visible,
+        .custom-announcement-panel.visible {
             opacity: 1;
             transform: translateY(0);
         }
@@ -320,14 +330,15 @@
         .whitelist-panel { border-color: var(--mc-gold); box-shadow: 0 0 30px rgba(255,215,0,0.5); }
         .feedback-panel { border-color: var(--neon-purple); box-shadow: 0 0 30px rgba(255,0,255,0.5); }
         .announcement-panel { border-color: var(--mc-diamond); box-shadow: 0 0 30px rgba(0,191,255,0.5); }
+        .custom-announcement-panel { border-color: var(--neon-green); box-shadow: 0 0 30px rgba(57,255,20,0.5); }
 
-        .status-header, .players-header, .info-header, .whitelist-header, .feedback-header, .announcement-header, .donation-header {
+        .status-header, .players-header, .info-header, .whitelist-header, .feedback-header, .announcement-header, .donation-header, .custom-announcement-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
         }
-        .server-name, .players-title, .whitelist-title, .feedback-title, .announcement-title, .donation-title {
+        .server-name, .players-title, .whitelist-title, .feedback-title, .announcement-title, .donation-title, .custom-announcement-title {
             font-family: 'Press Start 2P', cursive;
             font-size: 1.2rem;
         }
@@ -337,6 +348,7 @@
         .feedback-title { color: var(--neon-purple); }
         .announcement-title { color: var(--mc-diamond); }
         .donation-title { color: var(--mc-diamond); }
+        .custom-announcement-title { color: var(--neon-green); }
 
         .status-dot {
             width: 12px;
@@ -777,6 +789,101 @@
             box-shadow: 0 0 20px rgba(0,191,255,0.6);
         }
 
+        /* 自定义公告栏样式 */
+        .custom-announcement-content {
+            background: rgba(57,255,20,0.1);
+            border: 1px solid var(--neon-green);
+            border-radius: 10px;
+            padding: 1.5rem;
+            min-height: 200px;
+            position: relative;
+        }
+
+        .custom-announcement-text {
+            color: var(--neon-green);
+            line-height: 1.8;
+            font-size: 1rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .edit-controls {
+            display: none;
+            margin-top: 1rem;
+            gap: 0.5rem;
+        }
+
+        .edit-controls.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .edit-textarea {
+            background: rgba(0,0,0,0.8);
+            border: 1px solid var(--neon-green);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--neon-green);
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .edit-textarea:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(57,255,20,0.5);
+        }
+
+        .edit-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-top: 0.5rem;
+        }
+
+        .edit-btn, .save-btn, .cancel-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid;
+        }
+
+        .edit-btn {
+            background: rgba(57,255,20,0.2);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .edit-btn:hover {
+            background: rgba(57,255,20,0.4);
+            transform: scale(1.05);
+        }
+
+        .save-btn {
+            background: rgba(0,255,0,0.2);
+            border-color: #00ff00;
+            color: #00ff00;
+        }
+
+        .save-btn:hover {
+            background: rgba(0,255,0,0.4);
+        }
+
+        .cancel-btn {
+            background: rgba(255,0,0,0.2);
+            border-color: #ff0000;
+            color: #ff0000;
+        }
+
+        .cancel-btn:hover {
+            background: rgba(255,0,0,0.4);
+        }
+
+        /* 修改后的底部样式 */
         .site-credit {
             background: rgba(0,0,0,0.8);
             border-top: 1px solid var(--neon-blue);
@@ -790,73 +897,59 @@
         .site-credit .credit-text {
             font-family: 'Press Start 2P', cursive;
             font-size: 0.9rem;
-            margin-bottom: 0.5rem;
             color: var(--neon-green);
-        }
-        .site-credit .gift-text {
-            color: var(--mc-gold);
-            font-size: 1.2rem;
-            margin-left: 0.5rem;
-        }
-        .site-credit .redstone-text {
-            color: #ff4444;
-            font-size: 0.8rem;
-            font-weight: 700;
+            line-height: 1.6;
         }
 
-        /* 管理员登录触发器 - 右下角隐蔽方块 */
-        .admin-trigger {
+        /* 右下角管理员登录热区 - 完全透明但可点击 */
+        .admin-trigger-zone {
             position: fixed;
-            bottom: 10px;
-            right: 10px;
-            width: 15px;
-            height: 15px;
-            background: rgba(255,215,0,0.02);
-            border-radius: 3px;
+            bottom: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
             cursor: pointer;
-            transition: all 0.3s ease;
             z-index: 999;
+            background: transparent;
         }
-        .admin-trigger:hover {
-            background: rgba(255,215,0,0.08);
-            width: 18px;
-            height: 18px;
-        }
-        /* 移动端优化 */
+        /* 移动端适配 */
         @media (max-width: 768px) {
-            .admin-trigger {
-                bottom: 15px;
-                right: 15px;
-                width: 25px;
-                height: 25px;
-            }
-            .admin-trigger:hover {
-                width: 28px;
-                height: 28px;
+            .admin-trigger-zone {
+                width: 80px;
+                height: 80px;
             }
         }
 
         .announcement-content::-webkit-scrollbar,
-        .feedback-wall::-webkit-scrollbar {
+        .feedback-wall::-webkit-scrollbar,
+        .custom-announcement-content::-webkit-scrollbar {
             width: 8px;
         }
         .announcement-content::-webkit-scrollbar-track,
-        .feedback-wall::-webkit-scrollbar-track {
+        .feedback-wall::-webkit-scrollbar-track,
+        .custom-announcement-content::-webkit-scrollbar-track {
             background: rgba(0,0,0,0.3);
             border-radius: 4px;
         }
         .announcement-content::-webkit-scrollbar-thumb,
-        .feedback-wall::-webkit-scrollbar-thumb {
+        .feedback-wall::-webkit-scrollbar-thumb,
+        .custom-announcement-content::-webkit-scrollbar-thumb {
             background: var(--mc-diamond);
             border-radius: 4px;
         }
         .announcement-content::-webkit-scrollbar-thumb:hover,
-        .feedback-wall::-webkit-scrollbar-thumb:hover {
+        .feedback-wall::-webkit-scrollbar-thumb:hover,
+        .custom-announcement-content::-webkit-scrollbar-thumb:hover {
             background: var(--neon-blue);
         }
 
         /* 移动端优化 */
         @media (max-width: 768px) {
+            /* 移动端公告栏堆叠 */
+            .announcements-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
             .logo-svg { width: 80px; height: 80px; }
             .hero h1 { font-size: 2rem; }
             .hero p { font-size: 1.2rem; }
@@ -1030,11 +1123,12 @@
             <p>回归原版本质 • 无插件魔改 • 公益纯净服</p>
         </section>
 
-        <div class="info-container">
-            <section id="announcement" class="announcement-panel" style="grid-column: 1 / -1;">
+        <!-- 双公告栏区域 -->
+        <div class="announcements-wrapper">
+            <section id="announcement" class="announcement-panel">
                 <div class="announcement-header" style="text-align: center; margin-bottom: 2rem;">
-                    <div class="announcement-title">📢 服务器公告</div>
-                    <p style="color: #ccc;">来自 MineBBS 官方公告</p>
+                    <div class="announcement-title">📢 官方公告</div>
+                    <p style="color: #ccc;">来自 MineBBS</p>
                 </div>
                 <div id="announcement-content" class="announcement-content">
                     <div style="text-align: center; padding: 2rem; color: var(--neon-blue);">
@@ -1049,10 +1143,34 @@
                 </div>
             </section>
 
+            <section id="custom-announcement" class="custom-announcement-panel">
+                <div class="custom-announcement-header" style="text-align: center; margin-bottom: 2rem;">
+                    <div class="custom-announcement-title">📝 服务器公告</div>
+                    <!-- 修改这里：署名改为"来自管理" -->
+                    <p style="color: #ccc;">来自管理</p>
+                </div>
+                <div id="custom-announcement-content" class="custom-announcement-content">
+                    <!-- 内容由JS动态填充 -->
+                </div>
+                <!-- 管理员编辑区域 -->
+                <div id="custom-edit-controls" class="edit-controls">
+                    <textarea id="custom-announcement-editor" class="edit-textarea"></textarea>
+                    <div class="edit-buttons">
+                        <button class="save-btn" onclick="saveCustomAnnouncement()">💾 保存</button>
+                        <button class="cancel-btn" onclick="cancelEdit()">❌ 取消</button>
+                    </div>
+                </div>
+                <div id="edit-button-container" style="text-align: center; margin-top: 1rem; display: none;">
+                    <button class="edit-btn" onclick="enableEdit()">✏️ 编辑公告</button>
+                </div>
+            </section>
+        </div>
+
+        <div class="info-container">
             <section id="status" class="server-status">
                 <div class="status-header">
                     <div class="server-name">🌲 服务器状态</div>
-                    <div style="color: var(--neon-purple); font-size: 0.9rem;">三服在线</div>
+                    <div id="online-count" style="color: var(--neon-purple); font-size: 0.9rem;">加载中...</div>
                 </div>
                 <div class="server-grid" id="servers-grid">
                     <div style="text-align: center; padding: 2rem; color: var(--neon-blue); grid-column: 1 / -1;">
@@ -1194,14 +1312,13 @@
         </div>
     </main>
 
+    <!-- 修改后的底部 -->
     <footer class="site-credit">
-        <div class="credit-text">🎮 这个是ID666的玩家送给房主的礼物 <span class="gift-text">🎁</span></div>
-        <div style="margin: 0.3rem 0;">ID:666</div>
-        <div class="redstone-text">⚡ 欢迎红石大佬！</div>
+        <div class="credit-text">本网站由666制造并送给房主——作为他对服务器的热爱</div>
     </footer>
 
-    <!-- 管理员登录触发器 - 右下角隐蔽方块 -->
-    <div class="admin-trigger" onclick="toggleAdminLogin()" title=""></div>
+    <!-- 右下角管理员登录热区 - 完全透明但可点击 -->
+    <div class="admin-trigger-zone" onclick="toggleAdminLogin()"></div>
 
     <script>
         const MINEBBS_URL = 'https://www.minebbs.com/threads/30010/?sharetype=link';
@@ -1221,6 +1338,10 @@
         let announcementData = null;
         let feedbackArray = [];
         const MAX_FEEDBACK = 50;
+
+        // 自定义公告相关
+        const CUSTOM_ANNOUNCEMENT_KEY = 'customAnnouncement';
+        const DEFAULT_CUSTOM_ANNOUNCEMENT = '服务器官网正式上线啦awa';
 
         function smoothScroll(targetId, event) {
             event.preventDefault();
@@ -1312,6 +1433,75 @@
             `;
         }
 
+        // 自定义公告功能
+        function loadCustomAnnouncement() {
+            const saved = localStorage.getItem(CUSTOM_ANNOUNCEMENT_KEY);
+            return saved || DEFAULT_CUSTOM_ANNOUNCEMENT;
+        }
+
+        function saveCustomAnnouncementToStorage(content) {
+            localStorage.setItem(CUSTOM_ANNOUNCEMENT_KEY, content);
+        }
+
+        function renderCustomAnnouncement() {
+            const content = loadCustomAnnouncement();
+            const displayBox = document.getElementById('custom-announcement-content');
+            displayBox.innerHTML = `<div class="custom-announcement-text">${content}</div>`;
+        }
+
+        function enableEdit() {
+            if (!isAdmin) return;
+            
+            const editor = document.getElementById('custom-announcement-editor');
+            const controls = document.getElementById('custom-edit-controls');
+            const displayContent = document.getElementById('custom-announcement-content');
+            const editButton = document.getElementById('edit-button-container');
+            
+            editor.value = loadCustomAnnouncement();
+            displayContent.style.display = 'none';
+            editButton.style.display = 'none';
+            controls.classList.add('active');
+        }
+
+        function cancelEdit() {
+            const editor = document.getElementById('custom-announcement-editor');
+            const controls = document.getElementById('custom-edit-controls');
+            const displayContent = document.getElementById('custom-announcement-content');
+            const editButton = document.getElementById('edit-button-container');
+            
+            editor.value = loadCustomAnnouncement();
+            controls.classList.remove('active');
+            displayContent.style.display = 'block';
+            editButton.style.display = isAdmin ? 'block' : 'none';
+        }
+
+        function saveCustomAnnouncement() {
+            const editor = document.getElementById('custom-announcement-editor');
+            const newContent = editor.value.trim();
+            
+            if (newContent) {
+                saveCustomAnnouncementToStorage(newContent);
+                renderCustomAnnouncement();
+                cancelEdit();
+                alert('公告已保存！');
+            } else {
+                alert('公告内容不能为空！');
+            }
+        }
+
+        function updateCustomAnnouncementUI() {
+            const editButton = document.getElementById('edit-button-container');
+            const controls = document.getElementById('custom-edit-controls');
+            
+            if (isAdmin) {
+                editButton.style.display = 'block';
+            } else {
+                editButton.style.display = 'none';
+                controls.classList.remove('active');
+                document.getElementById('custom-announcement-content').style.display = 'block';
+            }
+        }
+
         async function getServerStatus(server) {
             try {
                 const apiUrl = `https://api.mcsrvstat.us/3/${server.ip}:${server.port}`;
@@ -1336,6 +1526,18 @@
         function renderServers(serverData) {
             const grid = document.getElementById('servers-grid');
             grid.innerHTML = '';
+            
+            // 计算在线服务器数量
+            let onlineCount = 0;
+            serverData.forEach(data => {
+                if (data && data.online) onlineCount++;
+            });
+            
+            // 更新在线数量显示
+            const onlineCountElement = document.getElementById('online-count');
+            if (onlineCountElement) {
+                onlineCountElement.textContent = `${onlineCount}服在线`;
+            }
             
             serverData.forEach((data, index) => {
                 const server = SERVERS[index];
@@ -1512,6 +1714,7 @@
                 isAdmin = true;
                 localStorage.setItem('adminSession', 'true');
                 updateAdminUI();
+                updateCustomAnnouncementUI();
                 closeAdminLogin();
                 renderFeedbackWall();
                 alert('管理员登录成功！');
@@ -1525,6 +1728,7 @@
             isAdmin = false;
             localStorage.removeItem('adminSession');
             updateAdminUI();
+            updateCustomAnnouncementUI();
             renderFeedbackWall();
         }
 
@@ -1555,6 +1759,7 @@
             if (session === 'true') {
                 isAdmin = true;
                 updateAdminUI();
+                updateCustomAnnouncementUI();
             }
         }
 
@@ -1598,6 +1803,7 @@
             updateActiveNav();
             checkAdminSession();
             renderFeedbackWall();
+            renderCustomAnnouncement();
             fetchAnnouncement();
             createParticles();
             
@@ -1607,7 +1813,7 @@
                 });
             }, { threshold: 0.1 });
             
-            document.querySelectorAll('.server-status, .players-panel, .info-panel, .whitelist-panel, .feedback-panel, .announcement-panel, .donation-panel').forEach(panel => observer.observe(panel));
+            document.querySelectorAll('.server-status, .players-panel, .info-panel, .whitelist-panel, .feedback-panel, .announcement-panel, .donation-panel, .custom-announcement-panel').forEach(panel => observer.observe(panel));
             
             startAutoRefresh();
         });
