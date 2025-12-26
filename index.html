@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡ mcwz空岛服务器 - 纯净1.21.10原版生存</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -39,6 +39,7 @@
             flex-direction: column;
             overflow-y: auto;
             -webkit-font-smoothing: antialiased;
+            padding-top: 140px;
         }
 
         body::before {
@@ -176,7 +177,6 @@
             top: 20px;
             left: 20px;
             z-index: 1001;
-            /* 移除边框和背景 */
             background: none;
             border: none;
             border-radius: 0;
@@ -294,7 +294,6 @@
             margin-top: 3rem;
         }
 
-        /* 添加双公告栏布局 */
         .announcements-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -789,7 +788,6 @@
             box-shadow: 0 0 20px rgba(0,191,255,0.6);
         }
 
-        /* 自定义公告栏样式 */
         .custom-announcement-content {
             background: rgba(57,255,20,0.1);
             border: 1px solid var(--neon-green);
@@ -883,7 +881,6 @@
             background: rgba(255,0,0,0.4);
         }
 
-        /* 修改后的底部样式 */
         .site-credit {
             background: rgba(0,0,0,0.8);
             border-top: 1px solid var(--neon-blue);
@@ -901,7 +898,6 @@
             line-height: 1.6;
         }
 
-        /* 右下角管理员登录热区 - 完全透明但可点击 */
         .admin-trigger-zone {
             position: fixed;
             bottom: 0;
@@ -912,44 +908,9 @@
             z-index: 999;
             background: transparent;
         }
+
         /* 移动端适配 */
         @media (max-width: 768px) {
-            .admin-trigger-zone {
-                width: 80px;
-                height: 80px;
-            }
-        }
-
-        .announcement-content::-webkit-scrollbar,
-        .feedback-wall::-webkit-scrollbar,
-        .custom-announcement-content::-webkit-scrollbar {
-            width: 8px;
-        }
-        .announcement-content::-webkit-scrollbar-track,
-        .feedback-wall::-webkit-scrollbar-track,
-        .custom-announcement-content::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.3);
-            border-radius: 4px;
-        }
-        .announcement-content::-webkit-scrollbar-thumb,
-        .feedback-wall::-webkit-scrollbar-thumb,
-        .custom-announcement-content::-webkit-scrollbar-thumb {
-            background: var(--mc-diamond);
-            border-radius: 4px;
-        }
-        .announcement-content::-webkit-scrollbar-thumb:hover,
-        .feedback-wall::-webkit-scrollbar-thumb:hover,
-        .custom-announcement-content::-webkit-scrollbar-thumb:hover {
-            background: var(--neon-blue);
-        }
-
-        /* 移动端优化 */
-        @media (max-width: 768px) {
-            /* 移动端公告栏堆叠 */
-            .announcements-wrapper {
-                grid-template-columns: 1fr;
-            }
-            
             .logo-svg { width: 80px; height: 80px; }
             .hero h1 { font-size: 2rem; }
             .hero p { font-size: 1.2rem; }
@@ -1025,6 +986,116 @@
             0% { box-shadow: 0 0 30px rgba(0,255,255,0.5); }
             50% { box-shadow: 0 0 50px rgba(255,0,255,0.8); }
             100% { box-shadow: 0 0 30px rgba(0,255,255,0.5); }
+        }
+
+        /* 地址编辑相关样式 */
+        .address-edit-mode {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .address-input-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .address-input {
+            flex: 1;
+            background: rgba(0,255,255,0.1);
+            border: 1px solid var(--neon-blue);
+            border-radius: 5px;
+            padding: 0.5rem;
+            color: #fff;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
+        }
+
+        .address-input:focus {
+            outline: none;
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 10px rgba(255,0,255,0.3);
+        }
+
+        .address-input.port-input {
+            flex: 0 0 80px;
+        }
+
+        .address-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .edit-server-btn {
+            background: rgba(255,215,0,0.2);
+            border: 1px solid var(--mc-gold);
+            color: var(--mc-gold);
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+        }
+
+        .edit-server-btn:hover {
+            background: rgba(255,215,0,0.4);
+            transform: scale(1.05);
+            box-shadow: 0 0 10px var(--mc-gold);
+        }
+
+        .address-edit-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .save-address-btn, .cancel-edit-btn {
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            border: 1px solid;
+        }
+
+        .save-address-btn {
+            background: rgba(0,255,0,0.2);
+            border-color: #00ff00;
+            color: #00ff00;
+        }
+
+        .save-address-btn:hover {
+            background: rgba(0,255,0,0.4);
+        }
+
+        .cancel-edit-btn {
+            background: rgba(255,0,0,0.2);
+            border-color: #ff0000;
+            color: #ff0000;
+        }
+
+        .cancel-edit-btn:hover {
+            background: rgba(255,0,0,0.4);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: var(--neon-blue);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -1123,7 +1194,6 @@
             <p>回归原版本质 • 无插件魔改 • 公益纯净服</p>
         </section>
 
-        <!-- 双公告栏区域 -->
         <div class="announcements-wrapper">
             <section id="announcement" class="announcement-panel">
                 <div class="announcement-header" style="text-align: center; margin-bottom: 2rem;">
@@ -1133,7 +1203,7 @@
                 <div id="announcement-content" class="announcement-content">
                     <div style="text-align: center; padding: 2rem; color: var(--neon-blue);">
                         <div class="loading"></div>
-                        <div style="margin-top: 1rem;">加载公告中...</div>
+                        <div style="margin-top: 1rem;">加载中...</div>
                     </div>
                 </div>
                 <div class="announcement-source">
@@ -1146,13 +1216,10 @@
             <section id="custom-announcement" class="custom-announcement-panel">
                 <div class="custom-announcement-header" style="text-align: center; margin-bottom: 2rem;">
                     <div class="custom-announcement-title">📝 服务器公告</div>
-                    <!-- 修改这里：署名改为"来自管理" -->
                     <p style="color: #ccc;">来自管理</p>
                 </div>
                 <div id="custom-announcement-content" class="custom-announcement-content">
-                    <!-- 内容由JS动态填充 -->
                 </div>
-                <!-- 管理员编辑区域 -->
                 <div id="custom-edit-controls" class="edit-controls">
                     <textarea id="custom-announcement-editor" class="edit-textarea"></textarea>
                     <div class="edit-buttons">
@@ -1175,7 +1242,7 @@
                 <div class="server-grid" id="servers-grid">
                     <div style="text-align: center; padding: 2rem; color: var(--neon-blue); grid-column: 1 / -1;">
                         <div class="loading"></div>
-                        <div style="margin-top: 1rem;">加载服务器状态中...</div>
+                        <div style="margin-top: 1rem;">加载中...</div>
                     </div>
                 </div>
             </section>
@@ -1187,11 +1254,11 @@
                 </div>
                 <div class="server-selector">
                     <select id="server-select" onchange="switchServer()">
-                        <option value="">选择服务器查看玩家</option>
+                        <option value="">选择服务器</option>
                     </select>
                 </div>
                 <div id="players-list" class="players-list">
-                    <div style="text-align: center; padding: 2rem; color: var(--neon-blue);">选择服务器查看在线玩家</div>
+                    <div style="text-align: center; padding: 2rem; color: var(--neon-blue);">选择服务器</div>
                 </div>
             </section>
 
@@ -1281,12 +1348,12 @@
 
                 <form class="feedback-form" onsubmit="submitFeedback(event)">
                     <div class="form-group">
-                        <label for="name">您的游戏ID/昵称</label>
-                        <input type="text" id="name" name="name" placeholder="请输入您的游戏ID或昵称" required>
+                        <label for="name">游戏ID/昵称</label>
+                        <input type="text" id="name" name="name" required>
                     </div>
                     <div class="form-group">
                         <label for="contact">联系方式（可选）</label>
-                        <input type="text" id="contact" name="contact" placeholder="QQ/邮箱/Discord等">
+                        <input type="text" id="contact" name="contact">
                     </div>
                     <div class="form-group">
                         <label for="type">反馈类型</label>
@@ -1299,9 +1366,9 @@
                     </div>
                     <div class="form-group">
                         <label for="message">反馈内容</label>
-                        <textarea id="message" name="message" placeholder="请详细描述您的反馈内容..." required></textarea>
+                        <textarea id="message" name="message" required></textarea>
                     </div>
-                    <button type="submit" class="submit-btn">📤 提交反馈</button>
+                    <button type="submit" class="submit-btn">📤 提交</button>
                 </form>
 
                 <div class="feedback-wall">
@@ -1312,56 +1379,61 @@
         </div>
     </main>
 
-    <!-- 修改后的底部 -->
     <footer class="site-credit">
         <div class="credit-text">本网站由666制造并送给房主——作为他对服务器的热爱</div>
     </footer>
 
-    <!-- 右下角管理员登录热区 - 完全透明但可点击 -->
     <div class="admin-trigger-zone" onclick="toggleAdminLogin()"></div>
 
     <script>
         const MINEBBS_URL = 'https://www.minebbs.com/threads/30010/?sharetype=link';
-        
         const ADMIN_PASSWORD = '201314227';
-        
-        const SERVERS = [
+        const SERVER_CONFIG_KEY = 'serverConfigs';
+        const DEFAULT_SERVERS = [
             { name: '永恒生存服务器', ip: 'xxsc.asia', port: '35283' },
             { name: '永恒空岛服务器', ip: 'xxkd.asia', port: '35303' },
             { name: '纪元空岛', ip: '50kd.asia', port: '35313' }
         ];
         
+        let SERVERS = [...DEFAULT_SERVERS];
         let isAdmin = false;
         let currentServerIndex = -1;
         let serverPlayersData = {};
-
         let announcementData = null;
         let feedbackArray = [];
         const MAX_FEEDBACK = 50;
-
-        // 自定义公告相关
         const CUSTOM_ANNOUNCEMENT_KEY = 'customAnnouncement';
         const DEFAULT_CUSTOM_ANNOUNCEMENT = '服务器官网正式上线啦awa';
+
+        function loadServerConfigs() {
+            const saved = localStorage.getItem(SERVER_CONFIG_KEY);
+            if (saved) {
+                try {
+                    const savedConfigs = JSON.parse(saved);
+                    SERVERS = DEFAULT_SERVERS.map((defaultServer, index) => {
+                        return savedConfigs[index] || defaultServer;
+                    });
+                } catch (e) {
+                    console.error('加载配置失败:', e);
+                    SERVERS = [...DEFAULT_SERVERS];
+                }
+            }
+        }
+
+        function saveServerConfigs() {
+            localStorage.setItem(SERVER_CONFIG_KEY, JSON.stringify(SERVERS));
+        }
 
         function smoothScroll(targetId, event) {
             event.preventDefault();
             document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
             event.target.classList.add('active');
-            
-            // 移动端关闭菜单
-            if (window.innerWidth <= 768) {
-                document.getElementById('nav-links').classList.remove('active');
-            }
+            if (window.innerWidth <= 768) document.getElementById('nav-links').classList.remove('active');
 
             const targetElement = document.getElementById(targetId);
             if (targetElement) {
                 const offset = targetElement.offsetTop - 100;
                 window.scrollTo({ top: offset, behavior: 'smooth' });
-
-                targetElement.style.animation = 'none';
-                targetElement.offsetHeight;
-                targetElement.style.animation = 'panel-flash 0.6s ease-out';
-                setTimeout(() => targetElement.style.animation = '', 600);
             }
         }
 
@@ -1380,8 +1452,7 @@
         window.addEventListener('scroll', updateActiveNav);
 
         function toggleMobileMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('active');
+            document.getElementById('nav-links').classList.toggle('active');
         }
 
         async function fetchAnnouncement() {
@@ -1399,12 +1470,7 @@
                 const dateMatch = html.match(/(\d{4}[-/]\d{1,2}[-/]\d{1,2})/);
                 const date = dateMatch ? dateMatch[1] : new Date().toLocaleDateString('zh-CN');
                 
-                announcementData = {
-                    content: content.trim(),
-                    date: date,
-                    url: MINEBBS_URL
-                };
-                
+                announcementData = { content: content.trim(), date: date, url: MINEBBS_URL };
                 renderAnnouncement();
             } catch (error) {
                 console.error('加载公告失败:', error);
@@ -1419,7 +1485,6 @@
 
         function renderAnnouncement() {
             if (!announcementData) return;
-            
             const contentBox = document.getElementById('announcement-content');
             const paragraphs = announcementData.content.split('\n').filter(p => p.trim());
             const displayContent = paragraphs.slice(0, 3).join('\n');
@@ -1428,12 +1493,11 @@
                 <div class="announcement-item">
                     <div class="announcement-date">${announcementData.date}</div>
                     <div class="announcement-text">${displayContent}</div>
-                    ${paragraphs.length > 3 ? '<div style="color: #888; font-size: 0.8rem; margin-top: 1rem;">... 还有更多内容，请点击下方链接查看完整公告</div>' : ''}
+                    ${paragraphs.length > 3 ? '<div style="color: #888; font-size: 0.8rem; margin-top: 1rem;">... 更多内容请查看完整公告</div>' : ''}
                 </div>
             `;
         }
 
-        // 自定义公告功能
         function loadCustomAnnouncement() {
             const saved = localStorage.getItem(CUSTOM_ANNOUNCEMENT_KEY);
             return saved || DEFAULT_CUSTOM_ANNOUNCEMENT;
@@ -1451,7 +1515,6 @@
 
         function enableEdit() {
             if (!isAdmin) return;
-            
             const editor = document.getElementById('custom-announcement-editor');
             const controls = document.getElementById('custom-edit-controls');
             const displayContent = document.getElementById('custom-announcement-content');
@@ -1492,11 +1555,8 @@
         function updateCustomAnnouncementUI() {
             const editButton = document.getElementById('edit-button-container');
             const controls = document.getElementById('custom-edit-controls');
-            
-            if (isAdmin) {
-                editButton.style.display = 'block';
-            } else {
-                editButton.style.display = 'none';
+            editButton.style.display = isAdmin ? 'block' : 'none';
+            if (!isAdmin) {
                 controls.classList.remove('active');
                 document.getElementById('custom-announcement-content').style.display = 'block';
             }
@@ -1515,7 +1575,7 @@
 
         async function refreshAllServerStatus() {
             const grid = document.getElementById('servers-grid');
-            grid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--neon-blue); grid-column: 1 / -1;"><div class="loading"></div><div style="margin-top: 1rem;">加载服务器状态中...</div></div>';
+            grid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--neon-blue); grid-column: 1 / -1;"><div class="loading"></div><div style="margin-top: 1rem;">加载中...</div></div>';
             
             const serverPromises = SERVERS.map(server => getServerStatus(server));
             const results = await Promise.all(serverPromises);
@@ -1527,17 +1587,13 @@
             const grid = document.getElementById('servers-grid');
             grid.innerHTML = '';
             
-            // 计算在线服务器数量
             let onlineCount = 0;
             serverData.forEach(data => {
                 if (data && data.online) onlineCount++;
             });
             
-            // 更新在线数量显示
             const onlineCountElement = document.getElementById('online-count');
-            if (onlineCountElement) {
-                onlineCountElement.textContent = `${onlineCount}服在线`;
-            }
+            if (onlineCountElement) onlineCountElement.textContent = `${onlineCount}服在线`;
             
             serverData.forEach((data, index) => {
                 const server = SERVERS[index];
@@ -1553,7 +1609,31 @@
                 const serverCard = document.createElement('div');
                 serverCard.className = 'server-card';
                 serverCard.dataset.index = index;
-                serverCard.onclick = () => selectServer(index);
+                serverCard.onclick = (e) => {
+                    if (!e.target.closest('.address-edit-buttons') && !e.target.closest('.address-input-group')) {
+                        selectServer(index);
+                    }
+                };
+                
+                const addressLine = document.createElement('div');
+                addressLine.className = 'address-line';
+                addressLine.innerHTML = `
+                    <div class="address-display" id="address-display-${index}">
+                        <span>${server.ip}:${server.port}</span>
+                        ${isAdmin ? `<button class="edit-server-btn" onclick="editServerAddress(${index})">编辑</button>` : ''}
+                    </div>
+                    <div class="address-edit-mode" id="address-edit-${index}" style="display: none;">
+                        <div class="address-input-group">
+                            <input type="text" class="address-input" id="ip-input-${index}" value="${server.ip}" placeholder="IP地址">
+                            <input type="text" class="address-input port-input" id="port-input-${index}" value="${server.port}" placeholder="端口">
+                        </div>
+                        <div class="address-edit-buttons">
+                            <button class="save-address-btn" onclick="saveServerAddress(${index})">保存</button>
+                            <button class="cancel-edit-btn" onclick="cancelEditServerAddress(${index})">取消</button>
+                        </div>
+                    </div>
+                `;
+                
                 serverCard.innerHTML = `
                     <div class="server-title">${server.name}</div>
                     <div class="server-info">
@@ -1564,10 +1644,7 @@
                             </div>
                             <span style="color: var(--neon-blue); font-size: 0.8rem;">${onlinePlayers}/${maxPlayers} 玩家</span>
                         </div>
-                        <div class="address-line">
-                            <span>${server.ip}:${server.port}</span>
-                            <button class="copy-btn" onclick="copyAddress('${server.ip}:${server.port}')">复制</button>
-                        </div>
+                        ${addressLine.outerHTML}
                         <div style="color: var(--neon-purple); font-size: 0.8rem; margin-top: 0.5rem;">版本: 1.21.x | ${motd}</div>
                     </div>
                 `;
@@ -1579,7 +1656,7 @@
 
         function initServerSelect() {
             const serverSelect = document.getElementById('server-select');
-            serverSelect.innerHTML = '<option value="">选择服务器查看玩家</option>';
+            serverSelect.innerHTML = '<option value="">选择服务器</option>';
             SERVERS.forEach((server, index) => {
                 const option = document.createElement('option');
                 option.value = index;
@@ -1611,7 +1688,7 @@
                 document.querySelectorAll('.server-card').forEach(card => {
                     card.classList.remove('active');
                 });
-                document.getElementById('players-list').innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--neon-blue);">选择服务器查看在线玩家</div>';
+                document.getElementById('players-list').innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--neon-blue);">选择服务器</div>';
                 document.getElementById('player-count').textContent = '0';
             }
         }
@@ -1694,6 +1771,51 @@
             `).join('');
         }
 
+        function editServerAddress(index) {
+            event.stopPropagation();
+            const display = document.getElementById(`address-display-${index}`);
+            const edit = document.getElementById(`address-edit-${index}`);
+            
+            display.style.display = 'none';
+            edit.style.display = 'block';
+            
+            document.getElementById(`ip-input-${index}`).focus();
+        }
+
+        function saveServerAddress(index) {
+            event.stopPropagation();
+            
+            const newIp = document.getElementById(`ip-input-${index}`).value.trim();
+            const newPort = document.getElementById(`port-input-${index}`).value.trim();
+            
+            if (!newIp || !newPort) {
+                alert('IP地址和端口不能为空！');
+                return;
+            }
+            
+            SERVERS[index].ip = newIp;
+            SERVERS[index].port = newPort;
+            
+            saveServerConfigs();
+            cancelEditServerAddress(index);
+            refreshAllServerStatus();
+            
+            alert('服务器地址已保存！');
+        }
+
+        function cancelEditServerAddress(index) {
+            event.stopPropagation();
+            
+            const display = document.getElementById(`address-display-${index}`);
+            const edit = document.getElementById(`address-edit-${index}`);
+            
+            document.getElementById(`ip-input-${index}`).value = SERVERS[index].ip;
+            document.getElementById(`port-input-${index}`).value = SERVERS[index].port;
+            
+            display.style.display = 'flex';
+            edit.style.display = 'none';
+        }
+
         function toggleAdminLogin() {
             if (isAdmin) {
                 logoutAdmin();
@@ -1716,7 +1838,6 @@
                 updateAdminUI();
                 updateCustomAnnouncementUI();
                 closeAdminLogin();
-                renderFeedbackWall();
                 alert('管理员登录成功！');
             } else {
                 alert('密码错误！');
@@ -1734,12 +1855,8 @@
 
         function updateAdminUI() {
             const adminStatus = document.getElementById('admin-status');
-            
-            if (isAdmin) {
-                adminStatus.style.display = 'flex';
-            } else {
-                adminStatus.style.display = 'none';
-            }
+            if (adminStatus) adminStatus.style.display = isAdmin ? 'flex' : 'none';
+            refreshAllServerStatus();
         }
 
         function deleteFeedback(id) {
@@ -1785,21 +1902,20 @@
         }
 
         document.addEventListener('mousemove', function(e) {
-            if (window.innerWidth > 768) { // 只在桌面端启用鼠标跟随
-                const blocks = document.querySelectorAll('.block');
-                const mouseX = e.clientX / window.innerWidth;
-                const mouseY = e.clientY / window.innerHeight;
-                
-                blocks.forEach((block, index) => {
-                    const speed = (index + 1) * 0.3;
-                    const x = (mouseX - 0.5) * speed * 30;
-                    const y = (mouseY - 0.5) * speed * 30;
-                    block.style.transform = `translate(${x}px, ${y}px)`;
-                });
-            }
+            const blocks = document.querySelectorAll('.block');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            blocks.forEach((block, index) => {
+                const speed = (index + 1) * 0.3;
+                const x = (mouseX - 0.5) * speed * 30;
+                const y = (mouseY - 0.5) * speed * 30;
+                block.style.transform = `translate(${x}px, ${y}px)`;
+            });
         });
 
         document.addEventListener('DOMContentLoaded', () => {
+            loadServerConfigs();
             updateActiveNav();
             checkAdminSession();
             renderFeedbackWall();
@@ -1827,12 +1943,9 @@
         }
 
         document.getElementById('admin-password').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                loginAdmin();
-            }
+            if (e.key === 'Enter') loginAdmin();
         });
 
-        // 点击页面其他地方关闭移动端菜单
         document.addEventListener('click', function(e) {
             if (window.innerWidth <= 768 && !e.target.closest('nav')) {
                 document.getElementById('nav-links').classList.remove('active');
@@ -1841,3 +1954,4 @@
     </script>
 </body>
 </html>
+
